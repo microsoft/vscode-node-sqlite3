@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.8
+
+- Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
+
 ## 4.0.7
 
 - Node v12 support
