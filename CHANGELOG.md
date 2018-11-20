@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.3
+
+- Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
+
 ## 4.0.2
 
 - Fixed HTTP proxy support by using `request` over `needle` in node-pre-gyp
