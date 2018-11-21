@@ -2,6 +2,7 @@
 
 ## 4.0.8
 
+- Improved extended error code handling
 - Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
 - Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
 
