@@ -158,7 +158,12 @@ void Database::Work_Open(uv_work_t* req) {
     );
 
     if (baton->status != SQLITE_OK) {
-        baton->message = std::string(sqlite3_errmsg(db->_handle));
+
+        // Get the extended error code since this error happened
+        // during open where sqlite3_extended_result_codes was
+        // not called yet
+        baton->message = std::to_string(sqlite3_extended_errcode(db->_handle));
+
         sqlite3_close(db->_handle);
         db->_handle = NULL;
     }
