@@ -29,7 +29,8 @@
               "deps/sqlite3.gyp:sqlite3"
             ]
         }
-        ]
+        ],
+        [ "target_arch=='arm'", {"type": "static_library"} ]
       ],
       "sources": [
         "src/backup.cc",
