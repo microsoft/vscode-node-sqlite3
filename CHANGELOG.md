@@ -3,14 +3,20 @@
 ## 4.0.5
 
 - Improved extended error code handling
+- **SECURITY:** Upgrade SQLite to 3.26.0 [#1088](https://github.com/mapbox/node-sqlite3/pull/1088)
+- add constants for file open (shared databases) [#1078](https://github.com/mapbox/node-sqlite3/pull/1078)
+- Allow specifying the python to use [#1089](https://github.com/mapbox/node-sqlite3/pull/1089)
 
 ## 4.0.4
 
 - Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
+- Add NodeJS 11 support [#1072](https://github.com/mapbox/node-sqlite3/pull/1072)
+- Add electron osx 3.0.0 support [#1071](https://github.com/mapbox/node-sqlite3/pull/1071)
 
 ## 4.0.3
 
 - Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
+- Increase electron/osx binary coverage [#1041](https://github.com/mapbox/node-sqlite3/pull/1041) (@kewde)
 
 ## 4.0.2
 
