@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.7
+
+- Fix building on arm. [#5](https://github.com/Microsoft/vscode-node-sqlite3/pull/5)
+
 ## 4.0.6
 - **SECURITY:** Upgrade SQLite to 3.26.0 [#1088](https://github.com/mapbox/node-sqlite3/pull/1088)
 - add constants for file open (shared databases) [#1078](https://github.com/mapbox/node-sqlite3/pull/1078)
