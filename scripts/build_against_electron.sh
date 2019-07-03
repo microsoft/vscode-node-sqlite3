@@ -18,7 +18,11 @@ function publish() {
 
 function electron_pretest() {
     npm install -g electron@${ELECTRON_VERSION}
-    npm install -g electron-mocha
+    if [ "$NODE_VERSION" -le 6 ]; then
+        npm install -g electron-mocha@7
+    else
+        npm install -g electron-mocha
+    fi
     if [ "${TRAVIS_OS_NAME}" = "osx" ]; then 
         (sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )&
     else
@@ -45,6 +49,7 @@ make clean
 # now test building against shared sqlite
 export NODE_SQLITE3_JSON1=no
 if [[ $(uname -s) == 'Darwin' ]]; then
+    brew update
     brew install sqlite
     npm install --build-from-source --sqlite=$(brew --prefix) --clang=1 $GYP_ARGS
 else

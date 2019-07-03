@@ -1,10 +1,23 @@
 # Changelog
 
+## 4.0.8 (internal)
+
+- Merge with upstream (node.js 12 support)
+
 ## 4.0.7
+
+- Node v12 support
+- Electron v5 support
+- Fix backup API tests
+- HAVE_USLEEP=1 for all platforms
+- docker suport 
+
+## 4.0.6
+- Release of 4.0.5 (again due CI)
 
 - Fix building on arm. [#5](https://github.com/Microsoft/vscode-node-sqlite3/pull/5)
 
-## 4.0.6
+## 4.0.6 (internal)
 - **SECURITY:** Upgrade SQLite to 3.26.0 [#1088](https://github.com/mapbox/node-sqlite3/pull/1088)
 - add constants for file open (shared databases) [#1078](https://github.com/mapbox/node-sqlite3/pull/1078)
 - Allow specifying the python to use [#1089](https://github.com/mapbox/node-sqlite3/pull/1089)
@@ -140,7 +153,7 @@
  - Upgraded node-pre-gyp@0.6.5
  - Upgraded nan@1.8.4
  - Fixed binaries to work on older linux systems (circa GLIBC_2.2.5 like centos 6) @bnoordhuis
- - Updated internal libsqlite3 from 3.8.7.1 -> 3.8.9 (http://www.sqlite.org/news.html)
+ - Updated internal libsqlite3 from 3.8.7.1 -> 3.8.9 (https://www.sqlite.org/news.html)
 
 ## 3.0.5
 
@@ -199,7 +212,7 @@ Released July 14th, 2014
  - Now supporting node v0.11.x (specifically >=0.11.13)
  - Fix db opening error with absolute path on windows
  - Updated to node-pre-gyp@0.5.18
- - updated internal libsqlite3 from 3.8.4.3 -> 3.8.5 (http://www.sqlite.org/news.html)
+ - updated internal libsqlite3 from 3.8.4.3 -> 3.8.5 (https://www.sqlite.org/news.html)
 
 ## 2.2.3
 
@@ -223,7 +236,7 @@ Released July 14th, 2014
 
 Released Jan 13th, 2014
 
- - updated internal libsqlite3 from 3.7.17 -> 3.8.2 (http://www.sqlite.org/news.html) which includes the next-generation query planner http://www.sqlite.org/queryplanner-ng.html
+ - updated internal libsqlite3 from 3.7.17 -> 3.8.2 (https://www.sqlite.org/news.html) which includes the next-generation query planner http://www.sqlite.org/queryplanner-ng.html
  - improved binary deploy system using https://github.com/springmeyer/node-pre-gyp
  - binary install now supports http proxies
  - source compile now supports freebsd

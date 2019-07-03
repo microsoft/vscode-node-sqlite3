@@ -32,8 +32,7 @@ ECHO using MSBuild^: && CALL msbuild /version && ECHO.
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 ECHO downloading/installing node
-IF /I "%platform%"=="x64" powershell Install-Product node $env:nodejs_version x64
-IF /I "%platform%"=="x86" powershell Install-Product node $env:nodejs_version x86
+powershell Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:PLATFORM
 IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 powershell Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
@@ -106,7 +105,8 @@ GOTO NPM_TEST_FINISHED
 ECHO installing electron
 CALL npm install -g "electron@%NODE_RUNTIME_VERSION%"
 ECHO installing electron-mocha
-CALL npm install -g electron-mocha
+IF "%nodejs_version%" LEQ 6 CALL npm install -g "electron-mocha@7"
+IF "%nodejs_version%" GTR 6 CALL npm install -g "electron-mocha"
 ECHO preparing tests
 CALL electron "test/support/createdb-electron.js"
 DEL "test\support\createdb-electron.js"
