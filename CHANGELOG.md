@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.9 (internal)
+
+- Added index.d.ts
+
 ## 4.0.8 (internal)
 
 - Merge with upstream (node.js 12 support)
