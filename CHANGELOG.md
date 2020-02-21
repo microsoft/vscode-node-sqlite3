@@ -3,6 +3,7 @@
 ## 4.0.10 (internal)
 
 - Backport: overwrite 'msbuild_toolset' only if 'toolset' is defined
+- Added yarn.lock
 
 ## 4.0.9 (internal)
 
