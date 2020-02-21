@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.10 (internal)
+
+- Backport: overwrite 'msbuild_toolset' only if 'toolset' is defined
+
 ## 4.0.9 (internal)
 
 - Added index.d.ts
