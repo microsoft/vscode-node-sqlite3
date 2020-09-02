@@ -13,8 +13,8 @@ jobs:
   build:
 
    strategy:
+      node-version: 12.x
       matrix:
-        node-version: [12.x, 14.x]
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: $\{{ matrix.os }}
 
