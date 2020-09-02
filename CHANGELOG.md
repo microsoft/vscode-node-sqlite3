@@ -1,17 +1,51 @@
 # Changelog
 
-## 4.0.10 (internal)
-
-- Backport: overwrite 'msbuild_toolset' only if 'toolset' is defined
-- Added yarn.lock
-
-## 4.0.9 (internal)
-
+## 5.0.1 (internal)
+- Drop node-pre-gyp
 - Added index.d.ts
+- Added yarn.lock
+- Improved extended error code handling
+- Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
+- Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
 
-## 4.0.8 (internal)
+## 5.0.0
+- prebuilt: Node 14 support, dropped support for all version of Node < 10 [#1304](https://github.com/mapbox/node-sqlite3/pull/1304)
+- prebuilt: add electron 7.2 [#1324](https://github.com/mapbox/node-sqlite3/pull/1324) 
+- napi: refactor codebase to use N-API instead of NAN (+ various improvements) [#1304](https://github.com/mapbox/node-sqlite3/pull/1304)
+- trace: don't require throw to add trace info for verbose [#1317](https://github.com/mapbox/node-sqlite3/pull/1317)
+- ci: remove permission setting [#1319](https://github.com/mapbox/node-sqlite3/pull/1319)
 
-- Merge with upstream (node.js 12 support)
+## 4.2.0
+- electron: Electron v8, v8.1.x & v8.2.x [#1294](https://github.com/mapbox/node-sqlite3/pull/1294) [#1308](https://github.com/mapbox/node-sqlite3/pull/1308)
+- sqlite3: update to 3.31.1 (3310100) [#1289](https://github.com/mapbox/node-sqlite3/pull/1289)
+-  webpack: split sqlite3-binding.js out so that it could be override by webpack [#1268](https://github.com/mapbox/node-sqlite3/pull/1268)
+- sqlite3: enable 'SQLITE_ENABLE_DBSTAT_VTAB=1' [#1281](https://github.com/mapbox/node-sqlite3/pull/1281)
+- deps: remove request [#1287](https://github.com/mapbox/node-sqlite3/pull/1287)
+- deps: alternative update of node-gyp for electron (v1 - v4), windows [#1283](https://github.com/mapbox/node-sqlite3/pull/1283)
+- electron: fix dist url [#1282](https://github.com/mapbox/node-sqlite3/pull/1282)
+- docs: Added json1 support note [#1303](https://github.com/mapbox/node-sqlite3/pull/1303)
+
+## 4.1.1
+- Electron v6.1 and v7 support [#1237](https://github.com/mapbox/node-sqlite3/pull/1237)
+- Electron v7.1 support [#1254](https://github.com/mapbox/node-sqlite3/pull/1254)
+- SQLite3 update to 3.30.1 [#1238](https://github.com/mapbox/node-sqlite3/pull/1238)
+- Overwrite 'msbuild_toolset' only if 'toolset' is defined [#1242](https://github.com/mapbox/node-sqlite3/pull/1242)
+- Upgrade CI to node-gyp 6.x for Windows Electron v5 & v6 builds [#1245](https://github.com/mapbox/node-sqlite3/pull/1245)
+- Node v13 support [#1247](https://github.com/mapbox/node-sqlite3/pull/1247)
+- Use minimum supported node version for Electron 7 [#1255](https://github.com/mapbox/node-sqlite3/pull/1255)
+
+## 4.1.0
+
+- Electron v6 support [#1195](https://github.com/mapbox/node-sqlite3/pull/1195)
+- Electron v4.1 and v4.2 support [#1180](https://github.com/mapbox/node-sqlite3/pull/1180)
+- Custom file header with `--sqlite_magic` [#1144](https://github.com/mapbox/node-sqlite3/pull/1144)
+- https everywhere [#1177](https://github.com/mapbox/node-sqlite3/pull/1177)
+
+## 4.0.9
+- Use trusty as the base for prebuilts [#1167](https://github.com/mapbox/node-sqlite3/pull/1167)
+
+## 4.0.8
+- Rerelease of 4.0.7 but removed excess .vscode files [0df90c7](https://github.com/mapbox/node-sqlite3/commit/0df90c7811331169ad5f8fbad396422e72757af3)
 
 ## 4.0.7
 
@@ -19,29 +53,23 @@
 - Electron v5 support
 - Fix backup API tests
 - HAVE_USLEEP=1 for all platforms
-- docker suport 
+- docker suport
 
 ## 4.0.6
 - Release of 4.0.5 (again due CI)
 
-- Fix building on arm. [#5](https://github.com/Microsoft/vscode-node-sqlite3/pull/5)
-
-## 4.0.6 (internal)
+## 4.0.5
 - **SECURITY:** Upgrade SQLite to 3.26.0 [#1088](https://github.com/mapbox/node-sqlite3/pull/1088)
 - add constants for file open (shared databases) [#1078](https://github.com/mapbox/node-sqlite3/pull/1078)
 - Allow specifying the python to use [#1089](https://github.com/mapbox/node-sqlite3/pull/1089)
 
-## 4.0.5
-
-- Improved extended error code handling
-
 ## 4.0.4
-
-- Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
+- Add NodeJS 11 support [#1072](https://github.com/mapbox/node-sqlite3/pull/1072)
+- Add electron osx 3.0.0 support [#1071](https://github.com/mapbox/node-sqlite3/pull/1071)
 
 ## 4.0.3
 
-- Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
+- Increase electron/osx binary coverage [#1041](https://github.com/mapbox/node-sqlite3/pull/1041) (@kewde)
 
 ## 4.0.2
 
