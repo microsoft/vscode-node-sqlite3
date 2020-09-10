@@ -50,7 +50,7 @@
         "src/node_sqlite3.cc",
         "src/statement.cc"
       ],
-      "defines": [ "NAPI_VERSION=6", "NAPI_DISABLE_CPP_EXCEPTIONS=1" ]
+      "defines": [ "NAPI_VERSION=6", "NAPI_DISABLE_CPP_EXCEPTIONS=1", "NAPI_EXPERIMENTAL" ]
     }
   ]
 }
