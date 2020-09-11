@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.0.3 (internal)
+- Fix building against Electron
+
 ## 5.0.2 (internal)
 - Drop node-pre-gyp
 - Added index.d.ts
