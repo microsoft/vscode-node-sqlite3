@@ -1,7 +1,7 @@
 {
   "name": "vscode-sqlite3",
   "description": "Asynchronous, non-blocking SQLite3 bindings",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "homepage": "https://github.com/mapbox/node-sqlite3",
   "author": {
     "name": "MapBox",
@@ -14,8 +14,7 @@
     "remote_path": "./{name}/v{version}/{toolset}/",
     "package_name": "napi-v{napi_build_version}-{platform}-{arch}.tar.gz",
     "napi_versions": [
-      3,
-      6
+      3
     ]
   },
   "contributors": [

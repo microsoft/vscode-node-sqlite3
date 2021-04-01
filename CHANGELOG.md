@@ -1,15 +1,16 @@
 # Changelog
 
-## 5.0.3 (internal)
+## 5.0.4 (internal)
 - Fix building against Electron
-
-## 5.0.2 (internal)
 - Drop node-pre-gyp
 - Added index.d.ts
 - Added yarn.lock
 - Improved extended error code handling
 - Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
 - Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
+
+## 5.0.2
+- build: rebuild binaries before publishing [#1426](https://github.com/mapbox/node-sqlite3/pull/1426)
 
 ## 5.0.1
 - dep: node-addon-api to ^3.0.0 [#1367](https://github.com/mapbox/node-sqlite3/pull/1367)
