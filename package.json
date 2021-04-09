@@ -43,7 +43,8 @@
     "@mapbox/cloudfriend": "^1.9.0",
     "aws-sdk": "2.x",
     "eslint": "3.5.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "electron": "11.4.2"
   },
   "scripts": {
     "pretest": "node test/support/createdb.js",
