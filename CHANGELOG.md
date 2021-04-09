@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.11 (internal)
+
+- Upgrade to sqlite v3.34.0
+
 ## 4.0.10 (internal)
 
 - Backport: overwrite 'msbuild_toolset' only if 'toolset' is defined

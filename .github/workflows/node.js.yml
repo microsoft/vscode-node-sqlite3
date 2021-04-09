@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ vscode ]
+    branches: [ vscode, vscode-no-napi ]
   pull_request:
-    branches: [ vscode ]
+    branches: [ vscode, vscode-no-napi ]
 
 jobs:
   build:
