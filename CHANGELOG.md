@@ -3,6 +3,7 @@
 ## 4.0.11 (internal)
 
 - Upgrade to sqlite v3.34.0
+- Change GH CI to run tests against Electron 11.x
 
 ## 4.0.10 (internal)
 
