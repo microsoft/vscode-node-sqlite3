@@ -3,7 +3,7 @@
 ## 4.0.12 (internal)
 
 - Change GH CI to run tests against Electron 13.x
-- Changed name to @vscode/vscode-sqlite3
+- Changed name to @vscode/sqlite3
 
 ## 4.0.11 (internal)
 
