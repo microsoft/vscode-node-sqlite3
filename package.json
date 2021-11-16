@@ -1,5 +1,5 @@
 {
-  "name": "sqlite3",
+  "name": "@vscode/sqlite3",
   "description": "Asynchronous, non-blocking SQLite3 bindings",
   "version": "5.0.2",
   "homepage": "https://github.com/mapbox/node-sqlite3",
@@ -40,8 +40,7 @@
     "url": "git://github.com/mapbox/node-sqlite3.git"
   },
   "dependencies": {
-    "node-addon-api": "^4.2.0",
-    "@mapbox/node-pre-gyp": "^1.0.0"
+    "node-addon-api": "^4.2.0"
   },
   "devDependencies": {
     "@mapbox/cloudfriend": "^1.9.0",
@@ -61,7 +60,6 @@
     "node-gyp": "7.x"
   },
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build",
     "pretest": "node test/support/createdb.js",
     "test": "mocha -R spec --timeout 480000",
     "pack": "node-pre-gyp package"
