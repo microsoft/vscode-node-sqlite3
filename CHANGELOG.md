@@ -1,4 +1,7 @@
 # Changelog
+## 5.0.3 (internal)
+- Merge upstream changes
+
 ## 5.0.2
 - build: rebuild binaries before publishing [#1426](https://github.com/mapbox/node-sqlite3/pull/1426)
 
@@ -74,15 +77,15 @@
 
 - Increase electron/osx binary coverage [#1041](https://github.com/mapbox/node-sqlite3/pull/1041) (@kewde)
 
-## 4.0.5
+## 4.0.5 (internal)
 
 - Improved extended error code handling
 
-## 4.0.4
+## 4.0.4 (internal)
 
 - Enabled extended error codes when opening of DB fails (via `sqlite3_extended_errcode`)
 
-## 4.0.3
+## 4.0.3 (internal)
 
 - Enabled extended error codes by default (via `sqlite3_extended_result_codes`)
 
