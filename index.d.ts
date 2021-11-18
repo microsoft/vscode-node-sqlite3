@@ -30,7 +30,7 @@ export interface RunResult extends Statement {
     changes: number;
 }
 
-export class Statement {
+export class Statement extends events.EventEmitter {
     bind(callback?: (err: Error | null) => void): this;
     bind(...params: any[]): this;
 
