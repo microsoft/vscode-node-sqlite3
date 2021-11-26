@@ -10,17 +10,21 @@ on:
     branches: [ vscode ]
 
 jobs:
-  build:
+  posix:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        node: [16.5.0] # matches Electron 15.x
+        os: [macos-latest, ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
     - run: yarn install
-    - run: yarn test
+    - run: scripts/test_electron.sh
+  windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - run: yarn install
+    - run: .\scripts\test_electron.bat
