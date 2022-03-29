@@ -1,4 +1,21 @@
 # Changelog
+
+## 5.0.8 (internal)
+- drop python2 requirement
+- adding qspectre flag
+
+## 5.0.7 (internal)
+- chore: don't lock node-gyp version
+
+## 5.0.6 (internal)
+- chore: remove unused napi_build_version
+
+## 5.0.5 (internal)
+- chore: swallow non-throwable exceptions
+
+## 5.0.4 (internal)
+- fix: types for sqlite3.Statement
+
 ## 5.0.3 (internal)
 - Merge upstream changes
 
