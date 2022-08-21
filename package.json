@@ -2,7 +2,7 @@
   "name": "@vscode/sqlite3",
   "description": "Asynchronous, non-blocking SQLite3 bindings",
   "version": "5.0.8",
-  "homepage": "https://github.com/mapbox/node-sqlite3",
+  "homepage": "https://github.com/microsoft/vscode-node-sqlite3",
   "author": {
     "name": "MapBox",
     "url": "https://mapbox.com/"
@@ -37,7 +37,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/mapbox/node-sqlite3.git"
+    "url": "https://github.com/microsoft/vscode-node-sqlite3.git"
   },
   "dependencies": {
     "node-addon-api": "^4.2.0"
