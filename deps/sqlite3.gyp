@@ -60,9 +60,7 @@
           'outputs': [
             '<(SHARED_INTERMEDIATE_DIR)/sqlite-autoconf-<@(sqlite_version)/sqlite3.c'
           ],
-          # Use the python executable found by node-gyp
-          # https://github.com/nodejs/node-gyp/blob/91eb407f8418235d51c72b6a8df9c454ba882554/lib/configure.js#L25-L36
-          'action': ['<!(node -p "process.env.PYTHON")','./extract.py','./sqlite-autoconf-<@(sqlite_version).tar.gz','<(SHARED_INTERMEDIATE_DIR)']
+          'action': ['node','./extract.js','./sqlite-autoconf-<@(sqlite_version).tar.gz','<(SHARED_INTERMEDIATE_DIR)']
         }
       ],
       'direct_dependent_settings': {
@@ -89,7 +87,6 @@
           'SQLITE_ENABLE_FTS3',
           'SQLITE_ENABLE_FTS4',
           'SQLITE_ENABLE_FTS5',
-          'SQLITE_ENABLE_JSON1',
           'SQLITE_ENABLE_RTREE',
           'SQLITE_ENABLE_DBSTAT_VTAB=1',
           'SQLITE_ENABLE_MATH_FUNCTIONS'
@@ -105,7 +102,6 @@
         'SQLITE_ENABLE_FTS3',
         'SQLITE_ENABLE_FTS4',
         'SQLITE_ENABLE_FTS5',
-        'SQLITE_ENABLE_JSON1',
         'SQLITE_ENABLE_RTREE',
         'SQLITE_ENABLE_DBSTAT_VTAB=1',
         'SQLITE_ENABLE_MATH_FUNCTIONS'

@@ -13,16 +13,18 @@ Napi::FunctionReference Database::constructor;
 
 Napi::Object Database::Init(Napi::Env env, Napi::Object exports) {
     Napi::HandleScope scope(env);
+    // declare napi_default_method here as it is only available in Node v14.12.0+
+    napi_property_attributes napi_default_method = static_cast<napi_property_attributes>(napi_writable | napi_configurable); 
 
     Napi::Function t = DefineClass(env, "Database", {
-        InstanceMethod("close", &Database::Close),
-        InstanceMethod("exec", &Database::Exec),
-        InstanceMethod("wait", &Database::Wait),
-        InstanceMethod("loadExtension", &Database::LoadExtension),
-        InstanceMethod("serialize", &Database::Serialize),
-        InstanceMethod("parallelize", &Database::Parallelize),
-        InstanceMethod("configure", &Database::Configure),
-        InstanceMethod("interrupt", &Database::Interrupt),
+        InstanceMethod("close", &Database::Close, napi_default_method),
+        InstanceMethod("exec", &Database::Exec, napi_default_method),
+        InstanceMethod("wait", &Database::Wait, napi_default_method),
+        InstanceMethod("loadExtension", &Database::LoadExtension, napi_default_method),
+        InstanceMethod("serialize", &Database::Serialize, napi_default_method),
+        InstanceMethod("parallelize", &Database::Parallelize, napi_default_method),
+        InstanceMethod("configure", &Database::Configure, napi_default_method),
+        InstanceMethod("interrupt", &Database::Interrupt, napi_default_method),
         InstanceAccessor("open", &Database::OpenGetter, nullptr)
     });
 
@@ -377,6 +379,27 @@ Napi::Value Database::Configure(const Napi::CallbackInfo& info) {
         baton->status = info[1].As<Napi::Number>().Int32Value();
         db->Schedule(SetBusyTimeout, baton);
     }
+    else if (info[0].StrictEquals( Napi::String::New(env, "limit"))) {
+        REQUIRE_ARGUMENTS(3);
+        if (!info[1].IsNumber()) {
+            Napi::TypeError::New(env, "limit id must be an integer").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        if (!info[2].IsNumber()) {
+            Napi::TypeError::New(env, "limit value must be an integer").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        Napi::Function handle;
+        int id = info[1].As<Napi::Number>().Int32Value();
+        int value = info[2].As<Napi::Number>().Int32Value();
+        Baton* baton = new LimitBaton(db, handle, id, value);
+        db->Schedule(SetLimit, baton);
+    }
+    else if (info[0].StrictEquals(Napi::String::New(env, "change"))) {
+        Napi::Function handle;
+        Baton* baton = new Baton(db, handle);
+        db->Schedule(RegisterUpdateCallback, baton);
+    }
     else {
         Napi::TypeError::New(env, (StringConcat(
 #if V8_MAJOR_VERSION > 6
@@ -419,6 +442,15 @@ void Database::SetBusyTimeout(Baton* b) {
 
     // Abuse the status field for passing the timeout.
     sqlite3_busy_timeout(baton->db->_handle, baton->status);
+}
+
+void Database::SetLimit(Baton* b) {
+    std::unique_ptr<LimitBaton> baton(static_cast<LimitBaton*>(b));
+
+    assert(baton->db->open);
+    assert(baton->db->_handle);
+
+    sqlite3_limit(baton->db->_handle, baton->id, baton->value);
 }
 
 void Database::RegisterTraceCallback(Baton* b) {
@@ -537,12 +569,13 @@ void Database::UpdateCallback(Database *db, UpdateInfo* i) {
     Napi::HandleScope scope(env);
 
     Napi::Value argv[] = {
+        Napi::String::New(env, "change"),
         Napi::String::New(env, sqlite_authorizer_string(info->type)),
         Napi::String::New(env, info->database.c_str()),
         Napi::String::New(env, info->table.c_str()),
         Napi::Number::New(env, info->rowid),
     };
-    EMIT_EVENT(db->Value(), 4, argv);
+    EMIT_EVENT(db->Value(), 5, argv);
 }
 
 Napi::Value Database::Exec(const Napi::CallbackInfo& info) {
@@ -742,5 +775,9 @@ void Database::RemoveCallbacks() {
     if (debug_profile) {
         debug_profile->finish();
         debug_profile = NULL;
+    }
+    if (update_event) {
+        update_event->finish();
+        update_event = NULL;
     }
 }

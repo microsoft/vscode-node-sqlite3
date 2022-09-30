@@ -1,20 +1,21 @@
 {
   "name": "@vscode/sqlite3",
   "description": "Asynchronous, non-blocking SQLite3 bindings",
-  "version": "5.0.8",
-  "homepage": "https://github.com/mapbox/node-sqlite3",
+  "version": "5.1.1",
+  "homepage": "https://github.com/TryGhost/node-sqlite3",
   "author": {
-    "name": "MapBox",
+    "name": "Mapbox",
     "url": "https://mapbox.com/"
   },
   "binary": {
     "module_name": "node_sqlite3",
-    "module_path": "./lib/binding/napi-v{napi_build_version}-{platform}-{arch}",
-    "host": "https://mapbox-node-binary.s3.amazonaws.com",
-    "remote_path": "./{name}/v{version}/{toolset}/",
-    "package_name": "napi-v{napi_build_version}-{platform}-{arch}.tar.gz",
+    "module_path": "./lib/binding/napi-v{napi_build_version}-{platform}-{libc}-{arch}",
+    "host": "https://github.com/TryGhost/node-sqlite3/releases/download/",
+    "remote_path": "v{version}",
+    "package_name": "napi-v{napi_build_version}-{platform}-{libc}-{arch}.tar.gz",
     "napi_versions": [
-      3
+      3,
+      6
     ]
   },
   "contributors": [
@@ -35,19 +36,25 @@
     "Mithgol",
     "Ben Noordhuis <ben@strongloop.com>"
   ],
+  "files": [
+    "binding.gyp",
+    "deps/",
+    "lib/*.js",
+    "lib/*.d.ts",
+    "src/"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/mapbox/node-sqlite3.git"
+    "url": "https://github.com/TryGhost/node-sqlite3.git"
   },
   "dependencies": {
-    "node-addon-api": "^4.2.0"
+    "node-addon-api": "^4.2.0",
+    "tar": "^6.1.11"
   },
   "devDependencies": {
-    "@mapbox/cloudfriend": "^1.9.0",
-    "aws-sdk": "2.x",
     "electron": "17.1.2",
     "eslint": "^7.32.0",
-    "mocha": "^5.2.0"
+    "mocha": "7.2.0"
   },
   "scripts": {
     "pretest": "node test/support/createdb.js",
@@ -62,5 +69,10 @@
     "database"
   ],
   "main": "./lib/sqlite3",
-  "types": "index.d.ts"
+  "types": "./lib/sqlite3.d.ts",
+  "renovate": {
+    "extends": [
+      "@tryghost:base"
+    ]
+  }
 }
