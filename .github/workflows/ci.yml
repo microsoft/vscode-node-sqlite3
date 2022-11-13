@@ -4,7 +4,6 @@ on:
   push:
     branches: [ vscode ]
   pull_request:
-    branches: [ * ]
 
 jobs:
   posix:
