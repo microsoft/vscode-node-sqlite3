@@ -1,7 +1,7 @@
 {
   "name": "@vscode/sqlite3",
   "description": "Asynchronous, non-blocking SQLite3 bindings",
-  "version": "5.1.3",
+  "version": "5.1.2",
   "homepage": "https://github.com/microsoft/vscode-node-sqlite3",
   "author": {
     "name": "Mapbox",
