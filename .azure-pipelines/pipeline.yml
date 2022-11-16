@@ -1,0 +1,40 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+      - vscode
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: microsoft/vscode-engineering
+      ref: main
+      endpoint: Monaco
+
+parameters:
+  - name: publishPackage
+    displayName: 🚀 Publish @vscode/sqlite3
+    type: boolean
+    default: false
+
+extends:
+  template: azure-pipelines/npm-package/pipeline.yml@templates
+  parameters:
+    npmPackages:
+      - name: @vscode/sqlite3
+
+        buildSteps:
+          - script: yarn install
+            displayName: Install and build
+
+        testSteps:
+          - script: yarn install
+            displayName: Install and build
+
+          - script: yarn test
+            displayName: Test npm package
+
+        publishPackage: ${{ parameters.publishPackage }}
