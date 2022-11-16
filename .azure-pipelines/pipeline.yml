@@ -24,7 +24,7 @@ extends:
   template: azure-pipelines/npm-package/pipeline.yml@templates
   parameters:
     npmPackages:
-      - name: @vscode/sqlite3
+      - name: sqlite3
 
         buildSteps:
           - script: yarn install
