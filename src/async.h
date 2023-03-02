@@ -34,7 +34,7 @@ public:
         NODE_SQLITE3_MUTEX_LOCK(&async->mutex)
         rows.swap(async->data);
         NODE_SQLITE3_MUTEX_UNLOCK(&async->mutex)
-        for (unsigned int i = 0, size = rows.size(); i < size; i++) {
+        for (size_t i = 0, size = rows.size(); i < size; i++) {
             async->callback(async->parent, rows[i]);
         }
     }

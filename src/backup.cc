@@ -127,7 +127,7 @@ Backup::Backup(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Backup>(info) 
         return;
     }
 
-    int length = info.Length();
+    size_t length = info.Length();
 
     if (length <= 0 || !Database::HasInstance(info[0])) {
         Napi::TypeError::New(env, "Database object expected").ThrowAsJavaScriptException();
