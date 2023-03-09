@@ -15,17 +15,20 @@
         # https://chromium.googlesource.com/chromium/src/+/master/build/config/mac/mac_sdk.gni#22
         "MACOSX_DEPLOYMENT_TARGET": "10.11",
       },
+      "msvs_configuration_attributes": {
+        "SpectreMitigation": "Spectre"
+      },
       "msvs_settings": {
         "VCCLCompilerTool": {
           "ExceptionHandling": 1,
           "AdditionalOptions": [
-            '/Qspectre',
-            '/guard:cf'
+            "/guard:cf",
+            "/ZH:SHA_256"
           ]
         },
         "VCLinkerTool": {
           "AdditionalOptions": [
-            '/guard:cf'
+            "/guard:cf"
           ]
         }
       },
