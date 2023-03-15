@@ -2,7 +2,7 @@ name: Electron CI
 
 on:
   push:
-    branches: [ vscode ]
+    branches: [ release/vscode ]
   pull_request:
 
 jobs:
