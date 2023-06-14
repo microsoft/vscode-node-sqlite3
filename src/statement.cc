@@ -222,11 +222,10 @@ template <class T> Values::Field*
     }
 }
 
-template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, int start, int last) {
+template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, size_t start, size_t last) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
-    if (last < 0) last = static_cast<int>(info.Length());
     Napi::Function callback;
     if (last > start && info[last - 1].IsFunction()) {
         callback = info[last - 1].As<Napi::Function>();
@@ -238,16 +237,18 @@ template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, int start,
     if (start < last) {
         if (info[start].IsArray()) {
             Napi::Array array = info[start].As<Napi::Array>();
-            int length = array.Length();
+            uint32_t length = array.Length();
             // Note: bind parameters start with 1.
-            for (int i = 0, pos = 1; i < length; i++, pos++) {
+            int pos = 1;
+            for (uint32_t i = 0; i < length; i++, pos++) {
                 baton->parameters.push_back(BindParameter((array).Get(i), pos));
             }
         }
         else if (!info[start].IsObject() || OtherInstanceOf(info[start].As<Object>(), "RegExp") || OtherInstanceOf(info[start].As<Object>(), "Date") || info[start].IsBuffer()) {
             // Parameters directly in array.
             // Note: bind parameters start with 1.
-            for (int i = start, pos = 1; i < last; i++, pos++) {
+            int pos = 1;
+            for (size_t i = start; i < last; i++, pos++) {
                 baton->parameters.push_back(BindParameter(info[i], pos));
             }
         }
@@ -340,7 +341,7 @@ Napi::Value Statement::Bind(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<Baton>(info);
+    Baton* baton = stmt->Bind<Baton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::TypeError::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -392,7 +393,7 @@ Napi::Value Statement::Get(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RowBaton>(info);
+    Baton* baton = stmt->Bind<RowBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -464,7 +465,7 @@ Napi::Value Statement::Run(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RunBaton>(info);
+    Baton* baton = stmt->Bind<RunBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -534,7 +535,7 @@ Napi::Value Statement::All(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RowsBaton>(info);
+    Baton* baton = stmt->Bind<RowsBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -620,7 +621,7 @@ Napi::Value Statement::Each(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    int last = static_cast<int>(info.Length());
+    auto last = info.Length();
 
     Napi::Function completed;
     if (last >= 2 && info[last - 1].IsFunction() && info[last - 2].IsFunction()) {
