@@ -293,7 +293,7 @@ bool Statement::Bind(const Parameters & parameters) {
         Values::Field* field = *it;
 
         if (field != NULL) {
-            unsigned int pos;
+            int pos;
             if (field->index > 0) {
                 pos = field->index;
             }
