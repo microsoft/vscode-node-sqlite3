@@ -90,7 +90,7 @@ template <class T> void Statement::Error(T* baton) {
 // { Database db, String sql, Array params, Function callback }
 Statement::Statement(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Statement>(info) {
     Napi::Env env = info.Env();
-    int length = info.Length();
+    size_t length = info.Length();
 
     if (length <= 0 || !Database::HasInstance(info[0])) {
         Napi::TypeError::New(env, "Database object expected").ThrowAsJavaScriptException();
@@ -141,7 +141,7 @@ void Statement::Work_Prepare(napi_env e, void* data) {
     stmt->status = sqlite3_prepare_v2(
         baton->db->_handle,
         baton->sql.c_str(),
-        baton->sql.size(),
+        static_cast<int>(baton->sql.size()),
         &stmt->_handle,
         NULL
     );
@@ -222,11 +222,10 @@ template <class T> Values::Field*
     }
 }
 
-template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, int start, int last) {
+template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, size_t start, size_t last) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
-    if (last < 0) last = info.Length();
     Napi::Function callback;
     if (last > start && info[last - 1].IsFunction()) {
         callback = info[last - 1].As<Napi::Function>();
@@ -238,16 +237,18 @@ template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, int start,
     if (start < last) {
         if (info[start].IsArray()) {
             Napi::Array array = info[start].As<Napi::Array>();
-            int length = array.Length();
+            uint32_t length = array.Length();
             // Note: bind parameters start with 1.
-            for (int i = 0, pos = 1; i < length; i++, pos++) {
+            int pos = 1;
+            for (uint32_t i = 0; i < length; i++, pos++) {
                 baton->parameters.push_back(BindParameter((array).Get(i), pos));
             }
         }
         else if (!info[start].IsObject() || OtherInstanceOf(info[start].As<Object>(), "RegExp") || OtherInstanceOf(info[start].As<Object>(), "Date") || info[start].IsBuffer()) {
             // Parameters directly in array.
             // Note: bind parameters start with 1.
-            for (int i = start, pos = 1; i < last; i++, pos++) {
+            int pos = 1;
+            for (size_t i = start; i < last; i++, pos++) {
                 baton->parameters.push_back(BindParameter(info[i], pos));
             }
         }
@@ -292,7 +293,7 @@ bool Statement::Bind(const Parameters & parameters) {
         Values::Field* field = *it;
 
         if (field != NULL) {
-            unsigned int pos;
+            int pos;
             if (field->index > 0) {
                 pos = field->index;
             }
@@ -302,7 +303,7 @@ bool Statement::Bind(const Parameters & parameters) {
 
             switch (field->type) {
                 case SQLITE_INTEGER: {
-                    status = sqlite3_bind_int(_handle, pos,
+                    status = sqlite3_bind_int64(_handle, pos,
                         ((Values::Integer*)field)->value);
                 } break;
                 case SQLITE_FLOAT: {
@@ -310,12 +311,14 @@ bool Statement::Bind(const Parameters & parameters) {
                         ((Values::Float*)field)->value);
                 } break;
                 case SQLITE_TEXT: {
-                    status = sqlite3_bind_text(_handle, pos,
+                    status = sqlite3_bind_text64(_handle, pos,
                         ((Values::Text*)field)->value.c_str(),
-                        ((Values::Text*)field)->value.size(), SQLITE_TRANSIENT);
+                        ((Values::Text*)field)->value.size(),
+                        SQLITE_TRANSIENT,
+                        SQLITE_UTF8);
                 } break;
                 case SQLITE_BLOB: {
-                    status = sqlite3_bind_blob(_handle, pos,
+                    status = sqlite3_bind_blob64(_handle, pos,
                         ((Values::Blob*)field)->value,
                         ((Values::Blob*)field)->length, SQLITE_TRANSIENT);
                 } break;
@@ -338,7 +341,7 @@ Napi::Value Statement::Bind(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<Baton>(info);
+    Baton* baton = stmt->Bind<Baton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::TypeError::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -390,7 +393,7 @@ Napi::Value Statement::Get(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RowBaton>(info);
+    Baton* baton = stmt->Bind<RowBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -462,7 +465,7 @@ Napi::Value Statement::Run(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RunBaton>(info);
+    Baton* baton = stmt->Bind<RunBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -517,7 +520,7 @@ void Statement::Work_AfterRun(napi_env e, napi_status status, void* data) {
         // Fire callbacks.
         Napi::Function cb = baton->callback.Value();
         if (!cb.IsUndefined() && cb.IsFunction()) {
-            (stmt->Value()).Set(Napi::String::New(env, "lastID"), Napi::Number::New(env, baton->inserted_id));
+            (stmt->Value()).Set(Napi::String::New(env, "lastID"), Napi::Number::New(env, static_cast<double>(baton->inserted_id)));
             (stmt->Value()).Set( Napi::String::New(env, "changes"), Napi::Number::New(env, baton->changes));
 
             Napi::Value argv[] = { env.Null() };
@@ -532,7 +535,7 @@ Napi::Value Statement::All(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    Baton* baton = stmt->Bind<RowsBaton>(info);
+    Baton* baton = stmt->Bind<RowsBaton>(info, 0, info.Length());
     if (baton == NULL) {
         Napi::Error::New(env, "Data type is not supported").ThrowAsJavaScriptException();
         return env.Null();
@@ -618,7 +621,7 @@ Napi::Value Statement::Each(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Statement* stmt = this;
 
-    int last = info.Length();
+    auto last = info.Length();
 
     Napi::Function completed;
     if (last >= 2 && info[last - 1].IsFunction() && info[last - 2].IsFunction()) {
@@ -813,7 +816,7 @@ Napi::Value Statement::RowToJS(Napi::Env env, Row* row) {
 
         switch (field->type) {
             case SQLITE_INTEGER: {
-                value = Napi::Number::New(env, ((Values::Integer*)field)->value);
+                value = Napi::Number::New(env, static_cast<double>(((Values::Integer*)field)->value));
             } break;
             case SQLITE_FLOAT: {
                 value = Napi::Number::New(env, ((Values::Float*)field)->value);

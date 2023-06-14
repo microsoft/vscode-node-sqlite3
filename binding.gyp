@@ -23,6 +23,8 @@
           "ExceptionHandling": 1,
           "AdditionalOptions": [
             "/guard:cf",
+            "/w34244",
+            "/we4267",
             "/ZH:SHA_256"
           ]
         },

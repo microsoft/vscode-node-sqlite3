@@ -20,13 +20,13 @@ namespace node_sqlite3 {
 
 namespace Values {
     struct Field {
-        inline Field(unsigned short _index, unsigned short _type = SQLITE_NULL) :
+        inline Field(int _index, unsigned short _type = SQLITE_NULL) :
             type(_type), index(_index) {}
         inline Field(const char* _name, unsigned short _type = SQLITE_NULL) :
             type(_type), index(0), name(_name) {}
 
         unsigned short type;
-        unsigned short index;
+        int index;
         std::string name;
     };
 
@@ -57,7 +57,7 @@ namespace Values {
         inline ~Blob() {
             free(value);
         }
-        int length;
+        size_t length;
         char* value;
     };
 
@@ -221,7 +221,7 @@ protected:
     void Finalize_();
 
     template <class T> inline Values::Field* BindParameter(const Napi::Value source, T pos);
-    template <class T> T* Bind(const Napi::CallbackInfo& info, int start = 0, int end = -1);
+    template <class T> T* Bind(const Napi::CallbackInfo& info, size_t start, size_t end);
     bool Bind(const Parameters &parameters);
 
     static void GetRow(Row* row, sqlite3_stmt* stmt);

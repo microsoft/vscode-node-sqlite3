@@ -14,7 +14,7 @@ Napi::FunctionReference Database::constructor;
 Napi::Object Database::Init(Napi::Env env, Napi::Object exports) {
     Napi::HandleScope scope(env);
     // declare napi_default_method here as it is only available in Node v14.12.0+
-    napi_property_attributes napi_default_method = static_cast<napi_property_attributes>(napi_writable | napi_configurable); 
+    napi_property_attributes napi_default_method = static_cast<napi_property_attributes>(napi_writable | napi_configurable);
 
     Napi::Function t = DefineClass(env, "Database", {
         InstanceMethod("close", &Database::Close, napi_default_method),
@@ -573,7 +573,7 @@ void Database::UpdateCallback(Database *db, UpdateInfo* i) {
         Napi::String::New(env, sqlite_authorizer_string(info->type)),
         Napi::String::New(env, info->database.c_str()),
         Napi::String::New(env, info->table.c_str()),
-        Napi::Number::New(env, info->rowid),
+        Napi::Number::New(env, static_cast<double>(info->rowid)),
     };
     EMIT_EVENT(db->Value(), 5, argv);
 }
