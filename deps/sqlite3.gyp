@@ -33,6 +33,10 @@
     },
     'msvs_settings': {
       'VCCLCompilerTool': {
+        "AdditionalOptions": [
+          "/w34244",
+          "/we4267"
+        ]
       },
       'VCLibrarianTool': {
       },
