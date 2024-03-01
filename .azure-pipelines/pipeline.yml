@@ -37,4 +37,7 @@ extends:
           - script: yarn test
             displayName: Test npm package
 
+        apiScanSoftwareName: 'vscode-sqlite3'
+        apiScanSoftwareVersion: '5.1'
+
         publishPackage: ${{ parameters.publishPackage }}
