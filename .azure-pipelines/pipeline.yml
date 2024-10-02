@@ -27,10 +27,54 @@ extends:
       - name: sqlite3
 
         buildSteps:
+          - script: |
+              set -e
+              includes=$(cat << 'EOF'
+              {
+                "target_defaults": {
+                  "conditions": [
+                    ["OS=='linux'", {
+                      'cflags_cc!': [ '-std=gnu++20' ],
+                      'cflags_cc': [ '-std=gnu++2a' ],
+                    }]
+                  ]
+                }
+              }
+              EOF
+              )
+              if [ ! -d "$HOME/.gyp" ]; then
+                mkdir -p "$HOME/.gyp"
+              fi
+              echo "$includes" > "$HOME/.gyp/include.gypi"
+            displayName: Override gnu target for older sysroot
+            condition: eq(variables['Agent.OS'], 'Linux')
+
           - script: yarn install
             displayName: Install and build
 
         testSteps:
+          - script: |
+              set -e
+              includes=$(cat << 'EOF'
+              {
+                "target_defaults": {
+                  "conditions": [
+                    ["OS=='linux'", {
+                      'cflags_cc!': [ '-std=gnu++20' ],
+                      'cflags_cc': [ '-std=gnu++2a' ],
+                    }]
+                  ]
+                }
+              }
+              EOF
+              )
+              if [ ! -d "$HOME/.gyp" ]; then
+                mkdir -p "$HOME/.gyp"
+              fi
+              echo "$includes" > "$HOME/.gyp/include.gypi"
+            displayName: Override gnu target for older sysroot
+            condition: eq(variables['Agent.OS'], 'Linux')
+
           - script: yarn install
             displayName: Install and build
 
