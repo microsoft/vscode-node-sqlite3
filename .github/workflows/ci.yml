@@ -5,6 +5,8 @@ on:
     branches: [ release/vscode ]
   pull_request:
 
+permissions: {}
+
 jobs:
   posix:
     runs-on: ${{ matrix.os }}
@@ -12,7 +14,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
     - run: yarn install
     - run: scripts/test-electron.sh
   windows:
@@ -21,6 +25,8 @@ jobs:
       matrix:
         os: [windows-latest]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
     - run: yarn install
     - run: .\scripts\test-electron.bat
