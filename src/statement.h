@@ -52,7 +52,9 @@ namespace Values {
         template <class T> inline Blob(T _name, size_t len, const void* val) :
                 Field(_name, SQLITE_BLOB), length(len) {
             value = (char*)malloc(len);
-            memcpy(value, val, len);
+            if (value) {
+                memcpy(value, val, len);
+            }
         }
         inline ~Blob() {
             free(value);
