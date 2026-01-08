@@ -4,6 +4,7 @@
 #include <napi.h>
 #include <uv.h>
 
+// Test comment
 #include "threading.h"
 
 // Generic uv_async handler.
