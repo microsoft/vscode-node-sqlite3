@@ -17,7 +17,7 @@
         "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except"
       ],
       "cflags": [
-        "-O2", "-D_FORTIFY_SOURCE=2"
+        "-O2"
       ],
       "msvs_configuration_attributes": {
         "SpectreMitigation": "Spectre"
