@@ -56,6 +56,9 @@
     "eslint": "^7.32.0",
     "mocha": "^11.7.5"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.3"
+  },
   "scripts": {
     "pretest": "node test/support/createdb.js",
     "test": "mocha -R spec --timeout 480000",
