@@ -57,7 +57,7 @@
     "mocha": "^11.7.5"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.5"
   },
   "scripts": {
     "pretest": "node test/support/createdb.js",
