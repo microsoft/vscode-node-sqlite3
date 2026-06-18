@@ -52,12 +52,15 @@
     "tar": "^7.5.4"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "electron": "39.8.5",
-    "eslint": "^7.32.0",
+    "eslint": "^10.5.0",
+    "globals": "^17.6.0",
     "mocha": "^11.7.5"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3"
+    "diff": "^8.0.3",
+    "serialize-javascript": "^7.0.5"
   },
   "scripts": {
     "pretest": "node test/support/createdb.js",
