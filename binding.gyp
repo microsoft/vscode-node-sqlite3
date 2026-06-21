@@ -7,7 +7,9 @@
   "targets": [
     {
       "target_name": "vscode-sqlite3",
-      "xcode_settings": {
+      "cflags!": [ "-fno-exceptions" ],
+      "cflags_cc!": [ "-fno-exceptions" ],
+      "xcode_settings": { "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
         "CLANG_CXX_LIBRARY": "libc++",
         # Target depends on
         # https://chromium.googlesource.com/chromium/src/+/master/build/config/mac/mac_sdk.gni#22
@@ -25,6 +27,7 @@
       },
       "msvs_settings": {
         "VCCLCompilerTool": {
+          "ExceptionHandling": 1,
           "AdditionalOptions": [
             "/guard:cf",
             "/sdl",
@@ -75,7 +78,7 @@
         "src/node_sqlite3.cc",
         "src/statement.cc"
       ],
-      "defines": [ "NODE_API_SWALLOW_UNTHROWABLE_EXCEPTIONS" ]
+      "defines": [ "NAPI_DISABLE_CPP_EXCEPTIONS=1", "NODE_API_SWALLOW_UNTHROWABLE_EXCEPTIONS" ]
     },
     #{
     #  "target_name": "action_after_build",
